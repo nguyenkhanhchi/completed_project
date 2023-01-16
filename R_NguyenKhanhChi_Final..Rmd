@@ -1,0 +1,193 @@
+---
+title: "Data Analysis and Management with R: Final"
+author: "Nguyen Khanh Chi"
+date: "2022-12-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+rm(list=ls())
+
+### installing packages
+
+library(tidyverse)
+library(modelsummary)
+if (!require(fixest)){
+  install.packages('fixest')
+  library(fixest)
+}
+if (!require(grid)){
+  install.packages('grid')
+  library(grid)
+}
+
+library(tidyverse)
+library(modelsummary)
+
+install.packages("lspline")
+library(lspline)
+
+install.packages("lmtest")
+library(lmtest)
+
+install.packages("fixest")
+library(fixest)
+
+install.packages("ggplot2")
+library(ggplot2)
+
+tinytex::install_tinytex()
+
+
+library(viridisLite)
+library(viridis)
+install.packages("hrbrthemes")
+library(hrbrthemes)
+hrbrthemes::import_roboto_condensed()
+library(viridis)
+library(magrittr)
+library(tidyverse)
+library(modelsummary)
+library(fixest)
+library(dbplyr)
+library(corrplot)
+library(viridis)
+
+install.packages("magrittr") 
+install.packages("dplyr")    
+library(magrittr)
+library(dplyr)
+
+### loading files
+data_in <- "D:/r/" 
+file_name<- paste0(data_in,'cardio_fitness.csv') 
+df <-read.csv(file_name)
+
+### summary
+
+datasummary(df$Age + df$Education + df$Usage + df$Fitness +df$Income +df$Miles  ~ Mean + Median + SD + Min + Max + P25 + P75 + N, data = df) 
+
+
+breaks <- c(0,25, 35, 45, Inf)
+age_groups <- cut(df$Age, breaks = breaks, labels = c("<=25", "26-35", "36-45", ">45"))
+age_groups
+data.frame(df$Age,age_groups)
+
+TM195 <- df %>% filter(Product == 'TM195')
+
+breaks <- c(0,25, 35, 45, Inf)
+age_groups <- cut(TM195$Age, breaks = breaks, labels = c("<=25", "26-35", "36-45", ">45"))
+age_groups
+data.frame(TM195$Age,age_groups)
+
+TM498 <- df %>% filter(Product == 'TM498')
+
+breaks <- c(0,25, 35, 45, Inf)
+age_groups <- cut(TM498$Age, breaks = breaks, labels = c("<=25", "26-35", "36-45", ">45"))
+age_groups
+data.frame(TM498$Age,age_groups)
+
+TM798 <- df %>% filter(Product == 'TM798')
+
+breaks <- c(0,25, 35, 45, Inf)
+age_groups <- cut(TM798$Age, breaks = breaks, labels = c("<=25", "26-35", "36-45", ">45"))
+age_groups
+data.frame(TM798$Age,age_groups)
+
+
+### summary by gender:
+by(df, INDICES=df$Gender,FUN=summary)
+
+### histogram for age
+hist(df$Age, col="Magenta", main = "Histogram by Age")
+
+### histogram for education
+hist (df$Education, col = "Purple", main = "Histogram by education")
+
+### histogram by income/miles
+
+hist (df$Income, col = "Pink", main = "Histogram by income")
+hist (df$Miles, col = "Navy", main = "Histogram by running distance per week")
+
+### table diagrams
+table(df$Product,df$Gender)
+table(df$Product, df$MaritalStatus)
+
+### new library
+library(lattice)
+
+### graph on age group
+
+Usage_age_group<-ggplot(df, aes(fill = Gender, y = Usage, x = age_groups)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Treadmil Usage per week ") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("") 
+
+### graph on average miles
+
+miles_g<-ggplot(df, aes(fill = Gender, y = Miles, x = MaritalStatus)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Average miles per week") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("")
+
+miles_g
+
+### graph on average income
+
+income_g<-ggplot(df, aes(fill = Gender, y = Income, x = MaritalStatus)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Average income") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("")
+
+income_g
+
+### graph on education
+
+education_g<-ggplot(df, aes(fill = Gender, y = Education, x = MaritalStatus)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Average education") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("")
+
+education_g
+
+### graph on fitness
+
+fitness_g<-ggplot(df, aes(fill = Gender, y = Fitness, x = age_groups)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Average fitness") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("")
+
+fitness_g
+
+### graph on fitness by marital status
+
+fitness_status_g<-ggplot(df, aes(fill = Gender, y = Fitness, x = MaritalStatus)) + 
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Average fitness by marital status") +
+  facet_wrap(~Product) +
+  theme(legend.position = "top") +
+  xlab("")
+
+fitness_status_g
+
+### correlation
+
+cor(df$Miles,df$Usage)
+cor(df$Fitness, df$Usage)
+cor(df$Income, df$Usage)
+cor(df$Age, df$Usage)
+cor(df$Education, df$Usage)
+
