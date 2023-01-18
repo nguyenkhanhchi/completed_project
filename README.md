@@ -49,7 +49,8 @@ Together with another colleague using R, we decide to focus majorly on price and
 
 7. Stata_Foreign Aid Analysis
 Together with a colleague and using Stata, the question to which we set out to seek answers is: to increase foreign aid when it is fruitful or to decrease aid
-when it is futile in lifting receiving countries out of poverty. The data we use is a country-year panel collected from the World Development Indicators
+when it is futile in lifting receiving countries out of poverty. 
+- The data we use is a country-year panel collected from the World Development Indicators
 and Worldwide Governance Indicators maintained by the World Bank. We decided to add the Gini index, GDP per capita, and institutional quality (control of
 corruption, regulatory quality, rule of law, government effectiveness, political stability and absence of violence/terrorism, voice and accountability estimates) as confounders. 
-We run First Difference and Fixed Effects regressions to reveal the causal relationship between foreign aid and poverty. We also include robust and heterogeneity checks and a policy recommendation at the end. 
+- We run First Difference and Fixed Effects regressions to reveal the causal relationship between foreign aid and poverty. We also include robust and heterogeneity checks and a policy recommendation at the end. 
